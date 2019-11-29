@@ -11,33 +11,29 @@ class Weapon {
     this.durability = durability;
 
     this.range = range;
-    
-    this.arr = [];
+
+    this.primaryDurability = durability;
+
   }
 
   takeDamage(damage) {
 
-   let value = this.durability - damage;
+  this.durability = this.durability - damage;
 
-   if (value > 0) {
+   if (this.durability < 0) {
 
-     this.arr.push(value);
-
-     return value;
+     return 0;
 
    } else {
 
-     return 0;
+     return this.durability;
+     
    }
  };
 
  getDamage() {
 
-   let value;
-
-   let key = this.arr * 0.3;
-
-     if (key >= this.durability) {
+     if (this.durability >= this.primaryDurability * 0.3) {
 
        return this.attack;
 
@@ -48,18 +44,20 @@ class Weapon {
      } else {
 
        return this.attack / 2;
+
      }
  }
 
  isBroken() {
 
-   if (this.arr > 0) {
+   if (this.durability > 0) {
 
      return false;
 
    } else {
 
      return true;
+     
    }
  }
 }
@@ -106,7 +104,7 @@ class Bow extends Weapon {
 
 const bow = new Bow({});
 
-console.log(bow.takeDamage(200));
+console.log(bow.takeDamage(20));
 console.log(bow.getDamage());
 console.log(bow.isBroken());
 console.log(bow.name);
@@ -114,7 +112,6 @@ console.log(bow.attack);
 console.log(bow.durability);
 console.log(bow.range);
 console.log();
-
 
 class Sword extends Weapon {
   constructor({}) {
@@ -132,7 +129,7 @@ class Sword extends Weapon {
 
 const sword = new Sword({});
 
-console.log(sword.takeDamage(200));
+console.log(sword.takeDamage(100));
 console.log(sword.getDamage());
 console.log(sword.isBroken());
 console.log(sword.name);
@@ -314,6 +311,9 @@ class StudentLog {
 
   getTotalAverage() {
 
+    let sum;
+    let result;
+
     for (let subject in this.obj) {
 
       if (subject === '') {
@@ -327,26 +327,26 @@ class StudentLog {
 
         this.arr.push(this.obj[subject]);
 
-        console.log(this.arr);
+        //console.log(this.arr);
 
-        let result = this.arr.reduce(function(flat, current) {
+        result = this.arr.reduce(function(flat, current) {
 
         return flat.concat(current);
 
         }, []);
 
-        console.log(result);
+        //console.log(result);
 
-        let sum = 0;
+        sum = 0;
 
         for (let i = 0; i < result.length; i++) {
 
           sum += result[i];
         }
-        //console.log(sum / result.length);
-        return sum / result.length; // в result попадает только первый subject
      }
     }
+    return sum / result.length;
+
   }
  
 }
